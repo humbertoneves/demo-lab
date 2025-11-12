@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bad-nginx
+  labels:
+    app: bad-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bad-nginx
+  template:
+    metadata:
+      labels:
+        app: bad-nginx
+    spec:
+      containers:
+      - name: bad-nginx
+        image: nginx:latest  # 🚨 imagem vulnerável e não escaneada
+        securityContext:
+          privileged: true   # 🚨 viola política CIS e PSS
+          runAsUser: 0       # 🚨 executa como root
