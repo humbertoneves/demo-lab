@@ -1,3 +1,3 @@
 FROM nginx:latest
-RUN apt update && apt install -y curl netcat
-RUN echo 'ALUNO LAB CNAPP - DOCKERFILE VULNERÁVEL' > /usr/share/nginx/html/index.html
+RUN apt-get update && apt-get install -y curl netcat
+RUN echo 'ALUNO CNAPP - DOCKERFILE VULNERAVEL' > /usr/share/nginx/html/index.html
