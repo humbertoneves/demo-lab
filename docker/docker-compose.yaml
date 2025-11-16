@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  app:
+    image: nginx:latest
+    privileged: true
+    environment:
+      - API_KEY=1234567890
+    volumes:
+      - ./senhas:/etc/senhas
+    ports:
+      - "8080:80"

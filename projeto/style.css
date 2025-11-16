@@ -1,0 +1,46 @@
+body{
+    font-family: Montserrat;
+    background: linear-gradient(rgb(14, 0, 78),rgb(70, 73, 253));
+    margin: 30px;
+    height: 100vh;
+}
+#nome, #idade, #estadoCivil, #motoristasAdicionais, #veiculo, #classeVeiculo{
+    border: none;
+    outline: none;
+    margin: 8px;
+    border-radius: 5px;
+    padding: 5px;
+    width: 300px;
+    background-color: #F2F2F2;
+}
+#formSeguro{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: rgb(255, 255, 255);
+    max-width: 70%;
+    border-radius: 10px;
+    padding: 30px;
+}
+section{
+    justify-items: center;
+}
+button{
+    color: rgb(255, 255, 255);
+    background-color: rgb(14, 0, 78);
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    font-family: Montserrat;
+    font-weight: 470;
+}
+h2{
+    color: rgb(14, 0, 78);
+}
+h3{
+    margin: 40px 0px 0px 0px;
+    color: rgb(2, 2, 184);
+}
+button:hover{
+    background-color: rgb(2, 4, 155);
+}

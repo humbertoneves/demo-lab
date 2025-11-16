@@ -1,0 +1,11 @@
+FROM ubuntu:18.04
+
+USER root
+
+RUN apt-get update && apt-get install -y curl wget
+
+COPY secret.txt /app/secret.txt
+
+ENV PASSWORD="SuperSecret123"
+
+CMD ["/bin/bash"]
