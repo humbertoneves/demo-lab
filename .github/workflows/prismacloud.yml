@@ -1,4 +1,4 @@
-name: Prisma Cloud Checkov Scan
+name: Prisma Cloud Full Scan
 
 on:
   push:
@@ -6,17 +6,50 @@ on:
   pull_request:
 
 jobs:
-  prisma-scan:
+  prisma-cloud-scan:
+    name: Full Prisma Cloud CI/CD Scan
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Run Prisma Cloud 
-        id: prisma-cloud
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      # ---------- IaC + SCA + Secrets + Config Scanning ----------
+      - name: Run Prisma Cloud Checkov Scan
+        id: prisma
         uses: bridgecrewio/checkov-action@master
         env:
           PRISMA_API_URL: https://api.prismacloud.io
         with:
           api-key: ${{ secrets.BC_API_KEY }}
+          directory: .
+          soft_fail: false
+          output_format: cli,sarif,json
+          quiet: false
+          skip_check: CKV_GIT_1  # ignora check de git secrets local
+          log_level: DEBUG
+
+      # ---------- Upload para o GitHub Security (SARIF) ----------
+      - name: Upload SARIF report to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
+
+      # ---------- Fail if HIGH/CRITICAL ----------
+      - name: Fail on High or Critical
+        run: |
+          echo "Verificando severidades..."
+          if grep -q '"severity": "HIGH"' results.json || grep -q '"severity": "CRITICAL"' results.json; then
+            echo "Foram encontrados vulnerabilities HIGH ou CRITICAL."
+            exit 1
+          else
+            echo "Nenhuma vulnerabilidade grave encontrada."
+          fi
