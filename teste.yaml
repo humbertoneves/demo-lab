@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bad-nginx
-        image: nginx:latest  # 🚨 imagem vulnerável e não escaneada
+        image: nginx:latest
         securityContext:
-          privileged: true   # 🚨 viola política CIS e PSS
-          runAsUser: 0       # 🚨 executa como root
+          privileged: true
+          runAsUser: 0
